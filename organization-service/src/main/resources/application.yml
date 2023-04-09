@@ -1,0 +1,37 @@
+eureka:
+    client:
+        fetchRegistry: true
+        registerWithEureka: true
+        serviceUrl:
+            defaultZone: http://localhost:8070/eureka/
+    instance:
+        preferIpAddress: true
+server:
+    port: 8082
+spring:
+    application:
+        name: organization-service
+    cloud:
+        stream:
+            bindings:
+                output:
+                    content-type: application/json
+                    destination: orgChangeTopic
+            kafka:
+                binder:
+                    brokers: 192.168.6.7:9092
+                    zk-nodes: 192.168.6.7:2181
+    datasource:
+        password: postgres
+        url: jdbc:postgresql://localhost:5432/ostock_dev?sslmode=disable
+        username: postgres
+    profiles:
+        active: dev
+logging:
+    level:
+        com:
+            netflix: WARN
+            optimagrowth: DEBUG
+        org:
+            springframework:
+                web: WARN

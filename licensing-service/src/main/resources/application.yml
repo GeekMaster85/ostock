@@ -1,0 +1,66 @@
+eureka:
+    client:
+        fetchRegistry: true
+        registerWithEureka: true
+        serviceUrl:
+            defaultZone: http://localhost:8070/eureka/
+    instance:
+        hostname: localhost
+        preferIpAddress: true
+example:
+    property: 656
+logging:
+    level:
+        com:
+            netflix: WARN
+            optimagrowth: DEBUG
+        org:
+            springframework:
+                web: WARN
+resilience4j:
+    bulkhead:
+        instances:
+            bulkheadLicenseService:
+                maxConcurrentCalls: 20
+                maxWaitDuration: 2ms
+    circuitbreaker:
+        instances:
+            licenseService:
+                failureRateThreshold: 50
+                registerHealthIndicator: true
+                ringBufferSizeInClosedState: 5
+                ringBufferSizeInHalfOpenState: 3
+                waitDurationInOpenState: 10s
+    thread-pool-bulkhead:
+        instances:
+            bulkheadLicenseService:
+                coreThreadPoolSize: 1
+                maxThreadPoolSize: 1
+                queueCapacity: 1
+server:
+    port: 8081
+spring:
+    application:
+        name: licensing-service
+    cloud:
+        stream:
+            bindings:
+                input:
+                    content-type: application/json
+                    destination: orgChangeTopic
+                    group: licensingGroup
+            kafka:
+                binder:
+                    brokers: 192.168.6.7:9092
+                    zk-nodes: 192.168.6.7:2181
+    datasource:
+        password: postgres
+        url: jdbc:postgresql://localhost:5432/ostock_dev?sslmode=disable
+        username: postgres
+    profiles:
+        active: dev
+redis:
+    server: 192.168.6.7
+    port: 6379
+
+

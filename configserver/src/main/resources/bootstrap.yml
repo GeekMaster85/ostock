@@ -1,0 +1,16 @@
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+server:
+    port: 8071
+spring:
+    application:
+        name: config-server
+    cloud:
+        config:
+            server:
+                git:
+                    searchPaths: licensingservice
+                    uri: https://GeekMaster85:albert2365@github.com/GeekMaster85/config-1.git
